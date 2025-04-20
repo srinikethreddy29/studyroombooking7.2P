@@ -1,6 +1,37 @@
-<!-- This is the example homepage view for the Study Room Booking system -->
+<!-- This is the updated homepage for the Study Room Booking system -->
 <!DOCTYPE html>
-<html>
-  <head><title>Study Room Booking</title></head>
-  <body><h1>Welcome</h1></body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Room Booking</title>
+    <!-- Load the socket.io client library -->
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Welcome to Study Room Booking System</h1>
+
+    <!-- Button to send a new booking -->
+    <button onclick="sendNewBooking()">Send New Booking</button>
+
+    <script>
+        // Connecting to the socket server
+        const socket = io();
+
+        // Function to send a booking to the server
+        function sendNewBooking() {
+            const bookingData = {
+                room: 'Room A',
+                time: '2:00 PM',
+                user: 'Sriniketh'
+            };
+            socket.emit('newBooking', bookingData); // Send booking data to server
+        }
+
+        // Listen for booking updates broadcasted by server
+        socket.on('bookingUpdate', (data) => {
+            console.log('Booking updated:', data);
+            alert('New booking received: ' + JSON.stringify(data));
+        });
+    </script>
+</body>
 </html>
